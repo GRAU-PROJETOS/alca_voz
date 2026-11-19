@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AlçaVoz</title>
+    <style>
+body {margin:0;background:#fff;line-height:1.5}
+main.av {max-width:1380px;box-sizing:border-box;margin:auto;padding:2.75rem clamp(1rem,5vw,5rem) 1rem}
+.av {--tinta:#154832;--linha:#bbcab6;color:var(--tinta);font-family:"DM Sans",Arial,sans-serif}
+.av * {box-sizing:border-box}
+.av a {color:inherit;text-decoration:none}
+.av a:focus-visible,.av summary:focus-visible {outline:3px solid #a34823;outline-offset:4px}
+.av nav,.av footer,.av nav div,.av .tag,.av .botao {display:flex;align-items:center}
+.av nav,.av footer {justify-content:space-between;padding:.8rem 0;border-bottom:1px solid var(--linha)}
+.av nav div {display:flex;flex-wrap:wrap;gap:.5rem}
+
+.av .word,.av footer strong {font:bold 2rem Georgia,serif;letter-spacing:-.07em}
+.av .hero {display:grid;grid-template-columns:1fr 1fr;gap:4%;align-items:center;padding:clamp(2rem,5vw,5rem) 0}
+.av .tag {width:fit-content;gap:.5rem;font-weight:600}
+.av .tag b {font-size:1.7rem;color:#bc563b}
+.av h1,.av h2,.av h3 {color:inherit;padding:0;overflow-wrap:anywhere}
+.av h1,.av h2 {font-family:Georgia,serif;font-weight:normal;letter-spacing:-.065em}
+.av h1 {margin:1.2rem 0;font-size:clamp(3.5rem,7.4vw,7rem);line-height:.98}
+.av h1 em {display:block;color:#316a4b}
+.av p {font-size:1.03rem;line-height:1.6;color:#435a4c;max-width:46ch}
+.av .botao {width:fit-content;gap:2rem;background:var(--tinta);color:white;border-radius:2rem;padding:.8rem 1.45rem;margin-top:1.65rem;font-weight:bold}
+.av .botao:hover {background:#27633e}
+.av .quadro {display:grid;place-items:center;isolation:isolate;position:relative;overflow:hidden;aspect-ratio:1.18;background:radial-gradient(ellipse at 90% 12%,#fada88 0,transparent 56%),radial-gradient(ellipse at 15% 85%,#eaa89d 0,transparent 56%),#ccdee0;border-radius:48% 48% 3% 3%}
+.av .folha {width:68%;padding:3%;background:white;box-shadow:4px 9px 20px #31422d22;transform:rotate(-4deg);animation:flutuar 6s ease-in-out infinite}
+.av img {width:100%;display:block;object-fit:contain}
+.av .folha img {aspect-ratio:1}
+@keyframes flutuar {50% {transform:translateY(-7px) rotate(-2deg)}}
+.av section[id] {scroll-margin-top:2rem}
+.av #colecao {border-top:1px solid var(--linha);padding:2.5rem 0 3.5rem}
+.av header {display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.av h2 {margin:0;font-size:clamp(2.35rem,4.4vw,4rem);line-height:1.1}
+.av .grade {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(.9rem,2vw,2rem);margin-top:1.5rem}
+.av .amostra {display:grid;place-items:center;aspect-ratio:1.6;background:var(--tom);overflow:hidden;border-radius:12px}
+.av .amostra img {width:49%;height:80%;background:white;transform:rotate(-5deg);box-shadow:3px 5px 9px #36362320;transition:transform .35s}
+.av .peca:nth-child(2n) img {transform:rotate(5deg)}
+.av .peca:hover img,.av .peca:focus-within img {transform:rotate(0) scale(1.04)}
+.av h3 {display:flex;align-items:center;gap:.65rem;margin:1rem 0 .5rem;font:600 1.25rem Arial,sans-serif}
+.av i {flex:none;width:.78rem;height:.78rem;background:var(--tom);border-radius:50%}
+.av details {border-bottom:1px solid var(--linha)}
+.av summary {display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;cursor:pointer;list-style:none;font-weight:600}
+.av summary::-webkit-details-marker {display:none}
+.av summary::after {content:"+";font-size:1.4rem}
+.av details[open]>summary::after {content:"−"}
+.av .grupo {display:grid;grid-template-columns:1fr 1fr;gap:6%;padding:clamp(1.4rem,4vw,4rem);background:#eaf0df;border-radius:16px}
+.av footer {margin-top:2rem;border:0;border-top:1px solid var(--linha)}
+@media(max-width:720px){.av .hero,.av .grupo,.av .grade {grid-template-columns:1fr}.av .hero {gap:2rem}.av .quadro {width:min(100%,460px);justify-self:center}.av header {display:block}.av .grupo {gap:1rem}.av .grade {gap:1.8rem}.av .tag {font-size:.9rem}.av h1 {font-size:clamp(3.4rem,12vw,5rem)}}
+html {scroll-behavior:smooth}
+.av nav {flex-wrap:wrap;gap:.6rem}
+.av .pill {
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  min-height:44px;padding:.55rem 1.1rem;border:1px solid #a8b49c;border-radius:2rem;
+  background:#fbf5e9;font-weight:600;
+}
+.av .pill,.av .botao,.av .word,.av .toggle {
+  transition:background-color .28s,color .28s,border-color .28s,box-shadow .28s,transform .28s;
+}
+.av .pill:is(:hover,:focus-visible) {
+  background:var(--tinta);border-color:var(--tinta);color:#fff;
+  box-shadow:0 4px 12px #15483224;transform:translateY(-2px);
+}
+.av .botao:is(:hover,:focus-visible) {box-shadow:0 5px 14px #15483230;transform:translateY(-2px)}
+.av .word:hover {color:#38704f}
+.av :is(.pill,.botao,.word):active {transform:scale(.97)}
+.av .pill span[aria-hidden],.av .botao span[aria-hidden] {transition:transform .28s}
+.av .pill:hover span[aria-hidden] {transform:translateY(-2px)}
+.av .botao:hover span[aria-hidden] {transform:translate(2px,2px)}
+.av .item {border-bottom:1px solid var(--linha)}
+.av .toggle {
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  width:100%;min-height:44px;padding:.65rem .3rem;border:0;border-radius:.55rem;
+  background:transparent;color:inherit;text-align:left;font:600 1rem/1.4 Arial,sans-serif;cursor:pointer;
+}
+.av .toggle:is(:hover,:focus-visible) {background:#1548320c}
+.av .toggle:active {background:#15483216}
+.av .toggle:focus-visible {outline:3px solid #a34823;outline-offset:2px}
+.av .toggle::after {
+  content:"";flex:none;width:.48rem;height:.48rem;margin-right:.5rem;
+  border-right:2px solid;border-bottom:2px solid;transform:rotate(45deg);transition:transform .34s;
+}
+.av .toggle[aria-expanded="true"]::after {transform:rotate(225deg)}
+.av .panel {display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .36s ease-in-out,opacity .32s}
+.av .panel>div {min-height:0;overflow:hidden}
+.av .panel p {margin:.4rem .3rem 1rem}
+.av .toggle[aria-expanded="true"]+.panel {grid-template-rows:1fr;opacity:1}
+@media(prefers-reduced-motion:reduce) {
+  html {scroll-behavior:auto}
+  .av *, .av *::after {animation:none!important;transition:none!important}
+}
+.av .cores_que_falam {display:grid}
+.av .cores_que_falam p {max-width:none}
+.av .grupo + .grupo {margin-top:1.5rem}
+.av p a {
+  color:#164f73;font-weight:600;text-decoration:underline;
+  text-decoration-thickness:.1em;text-underline-offset:.18em;border-radius:.15em;
+  transition:color .25s,background-color .25s;
+}
+.av p a:is(:hover,:focus-visible) {color:#103c57;background:#e3f0f4}
+/* Controles de idioma e tema */
+.av nav div {justify-content:flex-end}
+.idioma select,.tema {
+  font:600 .96rem Arial,sans-serif;color:#154832;background:#fbf5e9;
+  border:1px solid #a8b49c;border-radius:2rem;cursor:pointer;
+}
+.idioma select {min-height:44px;padding:.55rem .7rem}
+.tema {position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:max(1rem,env(safe-area-inset-bottom));
+  z-index:5;width:48px;height:48px;display:grid;place-items:center;font-size:1.5rem;
+  box-shadow:0 4px 18px #10281b26;transition:transform .25s,background-color .3s;color:#154832}
+.tema:hover {transform:translateY(-2px)}
+.tema:focus-visible,.idioma select:focus-visible {outline:3px solid #b6623d;outline-offset:3px}
+.av footer {margin-bottom:4.2rem}
+body {transition:background-color .35s,color .35s}
+.av .grupo {transition:background-color .35s}
+html[data-theme="dark"] {color-scheme:dark;background:#14241e}
+[data-theme="dark"] body {background:#14241e}
+[data-theme="dark"] .av {--tinta:#e1efdc;--linha:#50655a}
+[data-theme="dark"] .av p {color:#c8d8cc}
+[data-theme="dark"] .av h1 em,[data-theme="dark"] .av .word:hover {color:#aad4a8}
+[data-theme="dark"] .av .tag b {color:#efae88}
+[data-theme="dark"] .av .grupo {background:#223a30}
+[data-theme="dark"] :is(.av .pill,.idioma select,.tema) {color:#e1efdc;background:#283e33;border-color:#718a78}
+[data-theme="dark"] .av .botao,[data-theme="dark"] .av .pill:hover {background:#c4dfb4;color:#153323}
+[data-theme="dark"] .av .toggle:is(:hover,:focus-visible) {background:#ffffff12}
+[data-theme="dark"] .av p a {color:#a8d8ff}
+[data-theme="dark"] .av p a:hover {background:#344a4d}
+@media(max-width:540px){.av nav {align-items:flex-start}.av nav div {justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){body,.tema,.av .grupo {transition:none}}
+</style>
+  </head>
+  <body>
+    <main class="av" lang="pt-BR" id="inicio">
+      <!-- EDITE AQUI · MENU -->
+      <nav aria-label="Navegação principal">
+        <a class="word" href="#inicio">AlçaVoz</a>
+        <div>
+          <a class="pill" href="#colecao"><span data-es="Colección" data-en="Collection">Coleção</span></a>
+          <a class="pill" href="#projeto"><span data-es="El proyecto" data-en="The project">O projeto</span></a>
+        <label class="idioma"><select id="idioma" aria-label="Idioma">
+<option lang="pt-BR" value="pt">🇧🇷 Português</option><option lang="es" value="es">🇪🇸 Español</option><option lang="en" value="en">🇬🇧 English</option></select></label></div>
+      </nav>
+      <!-- EDITE AQUI · CAPA -->
+      <section class="hero">
+        <div class="intro">
+          <span class="tag">
+            <b aria-hidden="true">✳</b> <span data-es="Bolsas reutilizables hechas con camisetas recuperadas" data-en="Tote bags made from reclaimed T-shirts">Ecobags de camisetas reutilizadas</span></span>
+          <h1><span data-es="Un asa," data-en="One handle,">Uma alça,</span> <em><span data-es="muchas voces." data-en="many voices.">muitas vozes.</span></em>
+          </h1>
+          <p><span data-es="Nuestras bolsas llevan mucho más que objetos. Cuentan historias, difunden mensajes y dan voz a causas que merecen ser escuchadas. Cada pieza es una oportunidad de darle una nueva vida a lo que se iba a desechar. Y tú puedes llevar ese cambio contigo allá donde vayas." data-en="Our bags carry more than everyday essentials. They tell stories, share messages and give a voice to causes that deserve to be heard. Each bag gives something that might have been thrown away a new purpose. You can carry that change with you wherever you go.">Mais do que carregar objetos, nossas bolsas carregam histórias, espalham mensagens e dão voz a causas que merecem ser ouvidas. Cada peça é uma oportunidade de transformar o que seria descartado em algo que faz a diferença. E você também pode carregar essa diferença por onde passar.</span></p>
+          <a class="botao" href="#colecao"><span data-es="Explorar la colección" data-en="Explore the collection">Explorar a coleção</span> <span aria-hidden="true">↘</span>
+          </a>
+        </div>
+        <div class="quadro">
+          <div class="folha">
+            <img src="imagens/capa.jpg" alt="Arte da AlçaVoz com megafone, ecobag de nozinhos e aquarela." data-alt-es="Ilustración de AlçaVoz con megáfono, bolsa con nudos y acuarela." data-alt-en="AlçaVoz artwork with a megaphone, knotted tote and watercolor.">
+          </div>
+        </div>
+      </section>
+      <!-- EDITE AQUI · COLEÇÃO -->
+      <section id="colecao">
+        <header class="cores_que_falam">
+          <h2><span data-es="Colores que hablan" data-en="Colors That Speak">Cores que Falam</span></h2>
+          <p><span data-es="Colores que hablan es una colección dedicada a campañas de sensibilización. Cada bolsa da voz a una causa importante. Empezamos con Septiembre Amarillo y Noviembre Azul, pero esta es solo la primera de muchas historias que queremos ayudar a contar. Nos esperan nuevos colores, nuevas causas y muchas voces." data-en="Colors That Speak is a collection dedicated to awareness campaigns. Each bag gives a voice to a cause that matters. We started with Yellow September and Blue November, the first of many stories we want to help tell. More colors, causes and voices are on their way.">A linha Cores que Falam é dedicada a campanhas de conscientização, transformando cada bolsa em uma forma de dar voz a causas importantes. Começamos com Setembro Amarelo e Novembro Azul, mas essa é só a primeira de muitas histórias que queremos ajudar a contar. Novas cores, novas causas e muitas vozes ainda estão por vir.</span></p>
+        </header>
+        <div class="grade">
+          <!-- EDITE AQUI · PEÇA · Setembro Amarelo -->
+          <article class="peca" style="--tom:#F8D675">
+            <div class="amostra">
+              <img src="imagens/setembro-amarelo.jpg" alt="Arte provisória da peça Setembro Amarelo." data-alt-es="Imagen provisional de la bolsa Septiembre Amarillo." data-alt-en="Placeholder artwork for the Yellow September tote.">
+            </div>
+            <h3>
+              <i></i><span data-es="Septiembre Amarillo — Cada vida importa 💛" data-en="Yellow September — Every life matters 💛">Setembro Amarelo — Cada vida importa 💛</span></h3>
+            <details>
+              <summary><span data-es="Ver detalles" data-en="View details">Ver detalhes</span></summary>
+              <p><span data-es="Nuestra bolsa Septiembre Amarillo celebra la vida y promueve la concienciación sobre la salud mental. Es una forma de ofrecer apoyo y recordar que nadie tiene que afrontar a solas los momentos difíciles." data-en="Our Yellow September tote celebrates the value of every life and raises awareness of mental health. It offers a reminder that nobody has to face difficult times alone.">Nossa ecobag Setembro Amarelo carrega uma mensagem de valorização da vida e conscientização sobre a saúde mental. Mais do que um acessório, é uma forma de espalhar acolhimento e lembrar que ninguém precisa enfrentar seus momentos difíceis sozinho.</span></p>
+              <p><span data-es="¿Necesitas hablar? En Brasil, el Centro de Valorização da Vida (CVV) ofrece apoyo emocional gratuito y confidencial las 24 horas. Llama al" data-en="Need to talk? In Brazil, the Centro de Valorização da Vida (CVV) offers free, confidential emotional support around the clock. Call">Precisa conversar? O Centro de Valorização da Vida (CVV) oferece apoio emocional gratuito e sigiloso, 24 horas por dia, pelo telefone</span> <a href="tel:+55188?oai_link_source=model_response_hotline">188</a> <span data-es="o visita" data-en="or visit">ou pelo site</span> <a href="https://www.cvv.org.br/?oai_link_source=model_response_hotline">www.cvv.org.br</a>.</p>
+            </details>
+          </article>
+          <!-- EDITE AQUI · PEÇA · Outubro Rosa -->
+          <!--<article class="peca" style="--tom:#EFB5AB">
+            <div class="amostra">
+              <img src="imagens/outubro-rosa.jpg" alt="Arte provisória da peça Outubro Rosa.">
+            </div>
+            <h3>
+              <i></i>Outubro Rosa</h3>
+            <details>
+              <summary>Ver detalhes</summary>
+              <p>Praesent vitae lacus at tellus gravida faucibus. Integer sit amet diam ac nisl feugiat luctus.</p>
+            </details>
+          </article>-->
+          <!-- EDITE AQUI · PEÇA · Novembro Azul -->
+          <article class="peca" style="--tom:#ADCFD9">
+            <div class="amostra">
+              <img src="imagens/novembro-azul.jpg" alt="Arte provisória da peça Novembro Azul." data-alt-es="Imagen provisional de la bolsa Noviembre Azul." data-alt-en="Placeholder artwork for the Blue November tote.">
+            </div>
+            <h3>
+              <i></i><span data-es="Noviembre Azul — Cuidarte es un acto de valentía 💙" data-en="Blue November — Taking care of yourself takes courage 💙">Novembro Azul — Cuidar de si é um ato de coragem 💙</span></h3>
+            <details>
+              <summary><span data-es="Ver detalles" data-en="View details">Ver detalhes</span></summary>
+              <p><span data-es="Nuestra bolsa Noviembre Azul invita a hablar de la salud masculina, especialmente de la prevención y el diagnóstico precoz del cáncer de próstata. Anima a los hombres a dejar atrás los prejuicios y a cuidar de su salud." data-en="Our Blue November tote raises awareness of men’s health, especially prostate cancer prevention and early diagnosis. It encourages men to move past stigma and take care of their health.">Nossa ecobag Novembro Azul carrega uma mensagem de conscientização sobre a saúde masculina, especialmente a prevenção e o diagnóstico precoce do câncer de próstata. Mais do que um acessório, é um incentivo para que os homens deixem o preconceito de lado e valorizem a própria saúde.</span></p>
+              <p><span data-es="¡Cuídate! En Brasil, puedes acudir a una Unidade Básica de Saúde (UBS) para recibir orientación sobre prevención, seguimiento médico y pruebas adecuadas para ti. ¡Tu salud también merece atención!" data-en="Take care of yourself. In Brazil, you can visit a local primary care clinic (UBS) for guidance on prevention, follow-up care and tests suited to you. Your health deserves attention, too.">Cuide-se! Procure uma Unidade Básica de Saúde (UBS) para receber orientações sobre prevenção, acompanhamento médico e exames adequados para você. Sua saúde também merece atenção!</span></p>
+            </details>
+          </article>
+        </div>
+      </section>
+      <!-- EDITE AQUI · O PROJETO -->
+      <section id="projeto" class="grupo">
+        <div>
+          <h2><span data-es="Una elección, tres impactos" data-en="One choice, three ways to make a difference">Uma escolha, três impactos</span></h2>
+          <p><span data-es="Cuando eliges una bolsa AlçaVoz, te llevas más que una bolsa. Formas parte de un cambio que ocurre de tres maneras:" data-en="When you choose an AlçaVoz tote, you take home more than a bag. You help make a difference in three ways:">Ao escolher uma ecobag AlçaVoz, você não leva apenas uma bolsa. Você faz parte de uma transformação que acontece de três maneiras:</span></p>
+        </div>
+        <div>
+          <details>
+            <summary><span data-es="Ayudas al medio ambiente 🌱" data-en="You help the environment 🌱">Você ajuda o meio ambiente 🌱</span></summary>
+            <p><span data-es="Una camiseta menos desechada de forma inadecuada y una bolsa de plástico menos en uso. Lo que antes se desperdiciaba empieza una nueva historia." data-en="One fewer T-shirt discarded improperly and one fewer plastic bag used. Something that once went to waste gets a new beginning.">Uma camiseta a menos sendo descartada incorretamente e uma sacola plástica a menos sendo utilizada. O que antes seria desperdício ganha uma nova história.</span></p>
+          </details>
+          <details>
+            <summary><span data-es="Llevas una voz contigo 💚" data-en="You carry a voice 💚">Você carrega uma voz 💚</span></summary>
+            <p><span data-es="Vayas donde vayas, tu bolsa lleva un mensaje, cuenta una historia y da visibilidad a causas que merecen ser escuchadas." data-en="Wherever you go, your bag carries a message, tells a story and draws attention to causes that deserve to be heard.">Por onde passa, sua bolsa carrega uma mensagem, conta uma história e dá visibilidade a causas que merecem ser ouvidas.</span></p>
+          </details>
+          <details>
+            <summary><span data-es="Ayudas a transformar vidas 🤝" data-en="You help change lives 🤝">Você ajuda a transformar vidas 🤝</span></summary>
+            <p><span data-es="Parte del importe de tu compra se destina a las organizaciones que apoyamos en nuestras campañas. Así, tu elección también ayuda a quienes lo necesitan." data-en="Part of the proceeds from your purchase goes to the organizations our campaigns support. In this way, your choice helps people in need.">Parte do valor da sua compra é destinada às instituições apoiadas por nossas campanhas. Assim, sua escolha também contribui para quem precisa.</span></p>
+          </details>
+        </div>
+      </section>
+            <!-- EDITE AQUI · CONHEÇA A ALÇAVOZ -->
+      <section id="sobre" class="grupo" aria-labelledby="titulo-sobre">
+        <h2 id="titulo-sobre"><span data-es="Conoce AlçaVoz" data-en="Meet AlçaVoz">Conheça a AlçaVoz</span></h2>
+        <div>
+          <details>
+            <summary><span data-es="De camisetas a bolsas reutilizables" data-en="From T-shirts to tote bags">Das camisetas às ecobags</span></summary>
+            <p><span data-es="Todo empieza con camisetas que recibimos como donaciones o compramos en pequeñas tiendas de segunda mano, apoyando también a esos negocios. Después seleccionamos, lavamos, cortamos y personalizamos cada prenda hasta convertirla en una bolsa única. Así le damos otra oportunidad a algo que podría haberse desechado." data-en="It starts with T-shirts donated to us or bought from small secondhand shops, helping support those businesses too. We then sort, wash, cut and personalize each shirt until it becomes a one-of-a-kind tote. Something that might have been thrown away gets another chance.">Tudo começa com camisetas que recebemos por meio de doações ou compramos de pequenos brechós, ajudando também a fortalecer esses negócios. Depois, cada peça passa por um processo de seleção, higienização, corte e personalização, até se transformar em uma ecobag única, dando uma nova oportunidade ao que poderia ser descartado.</span></p>
+          </details>
+          <details>
+            <summary><span data-es="Creaciones personalizadas" data-en="Custom creations">Criações personalizadas</span></summary>
+            <p><span data-es="Cada pieza ya es única, pero ¿qué te parecería tener una AlçaVoz exclusiva para ti o para tu empresa? Personalizamos colores, estampados y mensajes para hacer realidad tus ideas. Si quieres hacer un regalo, dar a conocer tu marca o apoyar una causa, cuéntanos qué te mueve y le daremos voz juntos." data-en="Every piece is already unique, but how about an AlçaVoz tote made just for you or your business? We customize colors, prints and messages to bring your ideas to life. Whether it’s a gift, a way to promote your brand or a cause you want to support, tell us what matters to you and we’ll give it a voice together.">Nossas peças já são únicas por natureza, mas que tal ter uma AlçaVoz exclusiva para você ou sua empresa? Personalizamos cores, estampas e mensagens para transformar suas ideias em algo especial. Seja para presentear, divulgar sua marca ou apoiar uma causa, conte pra gente o seu propósito e vamos dar voz a ele juntos!</span></p>
+          </details>
+          <details>
+            <summary><span data-es="Impacto social" data-en="Social impact">Impacto Social</span></summary>
+            <p><span data-es="Creemos que una pequeña elección puede generar grandes cambios. Por eso nuestras colecciones dan visibilidad a causas importantes y destinan parte de las ventas a las organizaciones que apoya cada campaña. Quienes eligen nuestras bolsas también forman parte de esa cadena de solidaridad." data-en="We believe a small choice can lead to bigger changes. Our collections bring attention to important causes, and part of the proceeds goes to the organizations supported by each campaign. Everyone who chooses one of our bags becomes part of that circle of support.">Acreditamos que uma pequena escolha pode gerar mudanças maiores. Por isso, nossas coleções dão visibilidade a causas importantes e destinam parte das vendas às instituições apoiadas em cada campanha. Assim, quem escolhe uma de nossas bolsas também participa dessa corrente de solidariedade.</span></p>
+          </details>
+        </div>
+      </section>
+      <!-- EDITE AQUI · RODAPÉ -->
+      <footer>
+        <strong>AlçaVoz</strong>
+        <a class="pill" href="#inicio"><span data-es="Volver al inicio" data-en="Back to top">Voltar ao início</span> <span aria-hidden="true">↑</span></a>
+      </footer>
+    </main>
+    <button type="button" id="tema" class="tema" aria-label="Modo escuro" aria-pressed="false" title="Modo escuro"><span aria-hidden="true">☾</span></button>
+    <script>
+      // Os textos de cada painel ficam nos blocos <details> acima.
+      document.querySelectorAll("details").forEach((details, index) => {
+        const summary = details.querySelector("summary");
+        const item = document.createElement("div");
+        const button = document.createElement("button");
+        const panel = document.createElement("div");
+        const content = document.createElement("div");
+
+        item.className = "item";
+        panel.className = "panel";
+        panel.id = "painel-" + index;
+        button.type = "button";
+        button.className = "toggle";
+        button.append(...summary.childNodes);
+        button.setAttribute("aria-controls", panel.id);
+
+        function expand(open) {
+          button.setAttribute("aria-expanded", String(open));
+          panel.inert = !open;
+          panel.setAttribute("aria-hidden", String(!open));
+        }
+
+        expand(details.open);
+        button.addEventListener("click", () => expand(button.getAttribute("aria-expanded") !== "true"));
+        summary.remove();
+        content.append(...details.childNodes);
+        panel.append(content);
+        item.append(button, panel);
+        details.replaceWith(item);
+      });
+      // EDITE AQUI · Os textos em português ficam no HTML. data-es e data-en guardam as traduções.
+      const labels = {
+        pt: ["pt-BR", "Idioma", "Navegação principal", "Modo escuro"],
+        es: ["es", "Idioma", "Navegación principal", "Modo oscuro"],
+        en: ["en", "Language", "Main navigation", "Dark mode"]
+      };
+      const selector = document.getElementById("idioma");
+      const themeButton = document.getElementById("tema");
+      const translations = [...document.querySelectorAll("[data-es]")].map(el => [el, el.textContent]);
+      const pictures = [...document.querySelectorAll("[data-alt-es]")].map(el => [el, el.alt]);
+
+      function readPreference(key) {
+        try { return localStorage.getItem("alcavoz-" + key); } catch { return null; }
+      }
+      function savePreference(key, value) {
+        try { localStorage.setItem("alcavoz-" + key, value); } catch { /* Disponível nesta visita. */ }
+      }
+      function setLanguage(lang) {
+        const [locale, language, navigation, darkMode] = labels[lang];
+        document.documentElement.lang = locale;
+        document.querySelector("main").lang = locale;
+        selector.value = lang;
+        selector.setAttribute("aria-label", language);
+        document.querySelector("nav").setAttribute("aria-label", navigation);
+        themeButton.setAttribute("aria-label", darkMode);
+        themeButton.title = darkMode;
+        for (const [el, original] of translations) {
+          el.textContent = lang === "pt" ? original : el.dataset[lang];
+        }
+        for (const [el, original] of pictures) {
+          el.alt = lang === "pt" ? original : el.getAttribute("data-alt-" + lang);
+        }
+      }
+      function setTheme(dark) {
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        themeButton.setAttribute("aria-pressed", String(dark));
+        themeButton.firstElementChild.textContent = dark ? "☀" : "☾";
+      }
+      const savedLanguage = readPreference("idioma");
+      setLanguage(["en","es"].includes(savedLanguage) ? savedLanguage : "pt");
+      setTheme(readPreference("tema") === "dark");
+      selector.addEventListener("change", () => {
+        setLanguage(selector.value);
+        savePreference("idioma", selector.value);
+      });
+      themeButton.addEventListener("click", () => {
+        setTheme(document.documentElement.dataset.theme !== "dark");
+        savePreference("tema", document.documentElement.dataset.theme);
+      });
+    </script>
+  </body>
+</html>
