@@ -29,7 +29,7 @@ main.av {max-width:1380px;box-sizing:border-box;margin:auto;padding:2.75rem clam
 .av .botao:hover {background:#27633e}
 .av .quadro {display:grid;place-items:center;isolation:isolate;position:relative;overflow:hidden;aspect-ratio:1.18;background:radial-gradient(ellipse at 90% 12%,#fada88 0,transparent 56%),radial-gradient(ellipse at 15% 85%,#eaa89d 0,transparent 56%),#ccdee0;border-radius:48% 48% 3% 3%}
 .av .folha {width:68%;padding:3%;background:white;box-shadow:4px 9px 20px #31422d22;transform:rotate(-4deg);animation:flutuar 6s ease-in-out infinite}
-.av img {width:100%;display:block;object-fit:contain}
+.av img {border-radius:8px;width:100%;display:block;object-fit:contain}
 .av .folha img {aspect-ratio:1}
 @keyframes flutuar {50% {transform:translateY(-7px) rotate(-2deg)}}
 .av section[id] {scroll-margin-top:2rem}
@@ -38,9 +38,6 @@ main.av {max-width:1380px;box-sizing:border-box;margin:auto;padding:2.75rem clam
 .av h2 {margin:0;font-size:clamp(2.35rem,4.4vw,4rem);line-height:1.1}
 .av .grade {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(.9rem,2vw,2rem);margin-top:1.5rem}
 .av .amostra {display:grid;place-items:center;aspect-ratio:1.6;background:var(--tom);overflow:hidden;border-radius:12px}
-.av .amostra img {width:49%;height:80%;background:white;transform:rotate(-5deg);box-shadow:3px 5px 9px #36362320;transition:transform .35s}
-.av .peca:nth-child(2n) img {transform:rotate(5deg)}
-.av .peca:hover img,.av .peca:focus-within img {transform:rotate(0) scale(1.04)}
 .av h3 {display:flex;align-items:center;gap:.65rem;margin:1rem 0 .5rem;font:600 1.25rem Arial,sans-serif}
 .av i {flex:none;width:.78rem;height:.78rem;background:var(--tom);border-radius:50%}
 .av details {border-bottom:1px solid var(--linha)}
@@ -104,16 +101,21 @@ html {scroll-behavior:smooth}
 .av p a:is(:hover,:focus-visible) {color:#103c57;background:#e3f0f4}
 /* Controles de idioma e tema */
 .av nav div {justify-content:flex-end}
-.idioma select,.tema {
+.idioma button,.tema {
   font:600 .96rem Arial,sans-serif;color:#154832;background:#fbf5e9;
   border:1px solid #a8b49c;border-radius:2rem;cursor:pointer;
 }
-.idioma select {min-height:44px;padding:.55rem .7rem}
-.tema {position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:max(1rem,env(safe-area-inset-bottom));
-  z-index:5;width:48px;height:48px;display:grid;place-items:center;font-size:1.5rem;
+.idioma button {min-height:44px;padding:.55rem .7rem}
+.preferencias {position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:max(1rem,env(safe-area-inset-bottom));
+  z-index:5;display:flex;align-items:center;gap:.45rem}
+.idioma {position:relative}
+.idioma button {height:48px;padding-left:2.4rem;box-shadow:0 4px 18px #10281b26}
+.bandeira {display:none;position:absolute;left:.8rem;top:50%;transform:translateY(-50%);width:20px;height:14px;pointer-events:none;border-radius:2px}
+html[lang="pt-BR"] .br,html[lang="es"] .es,html[lang="en"] .gb {display:block}
+.tema {width:48px;height:48px;display:grid;place-items:center;font-size:1.5rem;
   box-shadow:0 4px 18px #10281b26;transition:transform .25s,background-color .3s;color:#154832}
 .tema:hover {transform:translateY(-2px)}
-.tema:focus-visible,.idioma select:focus-visible {outline:3px solid #b6623d;outline-offset:3px}
+.tema:focus-visible,.idioma button:focus-visible {outline:3px solid #b6623d;outline-offset:3px}
 .av footer {margin-bottom:4.2rem}
 body {transition:background-color .35s,color .35s}
 .av .grupo {transition:background-color .35s}
@@ -124,7 +126,7 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
 [data-theme="dark"] .av h1 em,[data-theme="dark"] .av .word:hover {color:#aad4a8}
 [data-theme="dark"] .av .tag b {color:#efae88}
 [data-theme="dark"] .av .grupo {background:#223a30}
-[data-theme="dark"] :is(.av .pill,.idioma select,.tema) {color:#e1efdc;background:#283e33;border-color:#718a78}
+[data-theme="dark"] :is(.av .pill,.idioma button,.tema) {color:#e1efdc;background:#283e33;border-color:#718a78}
 [data-theme="dark"] .av .botao,[data-theme="dark"] .av .pill:hover {background:#c4dfb4;color:#153323}
 [data-theme="dark"] .av .toggle:is(:hover,:focus-visible) {background:#ffffff12}
 [data-theme="dark"] .av p a {color:#a8d8ff}
@@ -149,6 +151,51 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
   .av .peca:hover .preco {transform:translateY(-4px) rotate(-2deg);box-shadow:0 6px 14px #17352137}
 }
 [data-theme="dark"] .av .preco {background:#20392c;color:#f8f6e8}
+.galeria {position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;display:grid;place-items:center;padding:0;cursor:pointer}
+.galeria:focus-visible {outline:3px solid #154832;outline-offset:-4px}
+.av .galeria img {
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:auto;
+  height:auto;
+  max-width:90%;
+  max-height:86%;
+  border:0;
+  background:transparent;
+  transform:translate(-50%, -50%) rotate(0);
+  transform-origin:center;
+  opacity:1;
+  transition:opacity .6s ease-in-out, transform .35s ease;
+}
+.galeria {--inclinacao:-3deg}
+.peca:nth-child(even) .galeria {--inclinacao:3deg}
+@media (hover:hover) {
+  .av .galeria:hover img {transform:translate(-50%, -50%) rotate(var(--inclinacao))}
+}
+.av .galeria:focus-visible img {transform:translate(-50%, -50%) rotate(var(--inclinacao))}
+.av .galeria img[aria-hidden="true"] {opacity:0;pointer-events:none}
+.guia .conteudo-etapa {display:flow-root;overflow:hidden}
+.amostra .preco {pointer-events:none}
+.contador {position:absolute;bottom:.7rem;left:.7rem;background:#fffdf6;color:#154832;padding:.25rem .65rem;border-radius:1rem;font-weight:bold}
+.sr {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.av .guia {position:relative;isolation:isolate;display:grid;grid-template-columns:1fr 1fr;gap:2rem 6%;margin-top:1.5rem;border-radius:16px;padding:clamp(1.4rem,4vw,4rem);background:#fff6d8;color:#284d32}
+.guia::before {content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='140'%3E%3Ctext x='8' y='45' font-size='37'%3E🌻%3C/text%3E%3Ctext x='91' y='115' font-size='24'%3E🌻%3C/text%3E%3C/svg%3E")}
+.av .guia p {color:#40533e}
+.av .guia h3 {margin-top:0}
+.guia details {border-color:#c9bf8f}
+.guia summary {gap:.7rem;justify-content:flex-start}
+.guia summary::after {margin-left:auto}
+.guia .numero {display:grid;place-items:center;flex:none;width:1.8rem;height:1.8rem;border-radius:50%;background:#f4df99}
+.guia details img {height:auto;margin-bottom:1rem}
+.guia-final {grid-column:1/-1;border-top:1px solid #c9bf8f;padding-top:1.5rem}
+.av .guia-final p {max-width:75ch}
+@media(max-width:720px){.av .guia {grid-template-columns:minmax(0,1fr)}}
+#lista-idiomas {position:absolute;bottom:calc(100% + .4rem);right:0;padding:.25rem;background:#fbf5e9;border:1px solid #a8b49c;border-radius:1rem;box-shadow:0 4px 18px #10281b26}
+#lista-idiomas button {display:flex;align-items:center;gap:.6rem;width:100%;padding:.35rem .8rem;border:0;box-shadow:none}
+#lista-idiomas .bandeira {display:block;position:static;transform:none}
+#lista-idiomas button:is(:hover,:focus-visible) {background:#dfebd7;color:#154832}
+[data-theme="dark"] #lista-idiomas {background:#283e33;border-color:#718a78}
 </style>
   </head>
   <body>
@@ -158,9 +205,10 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
         <a class="word" href="#inicio">AlçaVoz</a>
         <div>
           <a class="pill" href="#colecao"><span data-es="Colección" data-en="Collection">Coleção</span></a>
+          <a class="pill" href="#sobre"><span data-es="Conoce AlçaVoz" data-en="Meet AlçaVoz">Conheça a AlçaVoz</span></a>
           <a class="pill" href="#projeto"><span data-es="El proyecto" data-en="The project">O projeto</span></a>
-        <label class="idioma"><select id="idioma" aria-label="Idioma">
-<option lang="pt-BR" value="pt">🇧🇷 Português</option><option lang="es" value="es">🇪🇸 Español</option><option lang="en" value="en">🇬🇧 English</option></select></label></div>
+          <a class="pill" href="#girassol"><span data-es="Cultiva tu girasol" data-en="Grow your sunflower">Cultive seu girassol</span></a>
+        </div>
       </nav>
       <!-- EDITE AQUI · CAPA -->
       <section class="hero">
@@ -189,7 +237,13 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
           <!-- EDITE AQUI · PEÇA · Setembro Amarelo -->
           <article class="peca" style="--tom:#F8D675">
             <div class="amostra">
-              <img src="imagens/setembro-amarelo.jpg" alt="Arte provisória da peça Setembro Amarelo." data-alt-es="Imagen provisional de la bolsa Septiembre Amarillo." data-alt-en="Placeholder artwork for the Yellow September tote.">
+              <button type="button" class="galeria">
+                <img src="imagens/setembro-amarelo/1.jpeg" alt="Setembro Amarelo, foto 1" data-alt-es="Septiembre Amarillo, foto 1" data-alt-en="Yellow September, photo 1">
+                <img src="imagens/setembro-amarelo/2.jpeg" alt="Setembro Amarelo, foto 2" data-alt-es="Septiembre Amarillo, foto 2" data-alt-en="Yellow September, photo 2" aria-hidden="true">
+                <img src="imagens/setembro-amarelo/3.jpeg" alt="Setembro Amarelo, foto 3" data-alt-es="Septiembre Amarillo, foto 3" data-alt-en="Yellow September, photo 3" aria-hidden="true">
+                <img src="imagens/setembro-amarelo/4.jpeg" alt="Setembro Amarelo, foto 4" data-alt-es="Septiembre Amarillo, foto 4" data-alt-en="Yellow September, photo 4" aria-hidden="true">
+                <span class="sr"><span data-es="Mostrar la siguiente foto" data-en="Show next photo">Mostrar próxima foto</span></span><span class="contador" aria-hidden="true">1 / 4</span>
+              </button>
               <!-- EDITE AQUI · Preços desta ecobag por tamanho -->
               <div class="preco">
                 <div class="linha-preco"><span>M</span><strong>R$ 24,90</strong></div>
@@ -219,7 +273,14 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
           <!-- EDITE AQUI · PEÇA · Novembro Azul -->
           <article class="peca" style="--tom:#ADCFD9">
             <div class="amostra">
-              <img src="imagens/novembro-azul.jpg" alt="Arte provisória da peça Novembro Azul." data-alt-es="Imagen provisional de la bolsa Noviembre Azul." data-alt-en="Placeholder artwork for the Blue November tote.">
+              <button type="button" class="galeria">
+                <img src="imagens/novembro-azul/1.jpg" alt="Novembro Azul, foto 1" data-alt-es="Noviembre Azul, foto 1" data-alt-en="Blue November, photo 1">
+                <img src="imagens/novembro-azul/2.jpg" alt="Novembro Azul, foto 2" data-alt-es="Noviembre Azul, foto 2" data-alt-en="Blue November, photo 2" aria-hidden="true">
+                <img src="imagens/novembro-azul/3.jpg" alt="Novembro Azul, foto 3" data-alt-es="Noviembre Azul, foto 3" data-alt-en="Blue November, photo 3" aria-hidden="true">
+                <img src="imagens/novembro-azul/4.jpg" alt="Novembro Azul, foto 4" data-alt-es="Noviembre Azul, foto 4" data-alt-en="Blue November, photo 4" aria-hidden="true">
+                <img src="imagens/novembro-azul/5.jpg" alt="Novembro Azul, foto 5" data-alt-es="Noviembre Azul, foto 5" data-alt-en="Blue November, photo 5" aria-hidden="true">
+                <span class="sr"><span data-es="Mostrar la siguiente foto" data-en="Show next photo">Mostrar próxima foto</span></span><span class="contador" aria-hidden="true">1 / 5</span>
+              </button>
               <!-- EDITE AQUI · Preços desta ecobag por tamanho -->
               <div class="preco">
                 <div class="linha-preco"><span>M</span><strong>R$ 24,90</strong></div>
@@ -234,6 +295,24 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
               <p><span data-es="¡Cuídate! En Brasil, puedes acudir a una Unidade Básica de Saúde (UBS) para recibir orientación sobre prevención, seguimiento médico y pruebas adecuadas para ti. ¡Tu salud también merece atención!" data-en="Take care of yourself. In Brazil, you can visit a local primary care clinic (UBS) for guidance on prevention, follow-up care and tests suited to you. Your health deserves attention, too.">Cuide-se! Procure uma Unidade Básica de Saúde (UBS) para receber orientações sobre prevenção, acompanhamento médico e exames adequados para você. Sua saúde também merece atenção!</span></p>
             </details>
           </article>
+        </div>
+      </section>
+      <!-- EDITE AQUI · CONHEÇA A ALÇAVOZ -->
+      <section id="sobre" class="grupo" aria-labelledby="titulo-sobre">
+        <h2 id="titulo-sobre"><span data-es="Conoce AlçaVoz" data-en="Meet AlçaVoz">Conheça a AlçaVoz</span></h2>
+        <div>
+          <details>
+            <summary><span data-es="De camisetas a bolsas reutilizables" data-en="From T-shirts to tote bags">Das camisetas às ecobags</span></summary>
+            <p><span data-es="Todo empieza con camisetas que recibimos como donaciones o compramos en pequeñas tiendas de segunda mano, apoyando también a esos negocios. Después seleccionamos, lavamos, cortamos y personalizamos cada prenda hasta convertirla en una bolsa única. Así le damos otra oportunidad a algo que podría haberse desechado." data-en="It starts with T-shirts donated to us or bought from small secondhand shops, helping support those businesses too. We then sort, wash, cut and personalize each shirt until it becomes a one-of-a-kind tote. Something that might have been thrown away gets another chance.">Tudo começa com camisetas que recebemos por meio de doações ou compramos de pequenos brechós, ajudando também a fortalecer esses negócios. Depois, cada peça passa por um processo de seleção, higienização, corte e personalização, até se transformar em uma ecobag única, dando uma nova oportunidade ao que poderia ser descartado.</span></p>
+          </details>
+          <details>
+            <summary><span data-es="Creaciones personalizadas" data-en="Custom creations">Criações personalizadas</span></summary>
+            <p><span data-es="Cada pieza ya es única, pero ¿qué te parecería tener una AlçaVoz exclusiva para ti o para tu empresa? Personalizamos colores, estampados y mensajes para hacer realidad tus ideas. Si quieres hacer un regalo, dar a conocer tu marca o apoyar una causa, cuéntanos qué te mueve y le daremos voz juntos." data-en="Every piece is already unique, but how about an AlçaVoz tote made just for you or your business? We customize colors, prints and messages to bring your ideas to life. Whether it’s a gift, a way to promote your brand or a cause you want to support, tell us what matters to you and we’ll give it a voice together.">Nossas peças já são únicas por natureza, mas que tal ter uma AlçaVoz exclusiva para você ou sua empresa? Personalizamos cores, estampas e mensagens para transformar suas ideias em algo especial. Seja para presentear, divulgar sua marca ou apoiar uma causa, conte pra gente o seu propósito e vamos dar voz a ele juntos!</span></p>
+          </details>
+          <details>
+            <summary><span data-es="Impacto social" data-en="Social impact">Impacto Social</span></summary>
+            <p><span data-es="Creemos que una pequeña elección puede generar grandes cambios. Por eso nuestras colecciones dan visibilidad a causas importantes y destinan parte de las ventas a las organizaciones que apoya cada campaña. Quienes eligen nuestras bolsas también forman parte de esa cadena de solidaridad." data-en="We believe a small choice can lead to bigger changes. Our collections bring attention to important causes, and part of the proceeds goes to the organizations supported by each campaign. Everyone who chooses one of our bags becomes part of that circle of support.">Acreditamos que uma pequena escolha pode gerar mudanças maiores. Por isso, nossas coleções dão visibilidade a causas importantes e destinam parte das vendas às instituições apoiadas em cada campanha. Assim, quem escolhe uma de nossas bolsas também participa dessa corrente de solidariedade.</span></p>
+          </details>
         </div>
       </section>
       <!-- EDITE AQUI · O PROJETO -->
@@ -257,34 +336,108 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
           </details>
         </div>
       </section>
-            <!-- EDITE AQUI · CONHEÇA A ALÇAVOZ -->
-      <section id="sobre" class="grupo" aria-labelledby="titulo-sobre">
-        <h2 id="titulo-sobre"><span data-es="Conoce AlçaVoz" data-en="Meet AlçaVoz">Conheça a AlçaVoz</span></h2>
-        <div>
-          <details>
-            <summary><span data-es="De camisetas a bolsas reutilizables" data-en="From T-shirts to tote bags">Das camisetas às ecobags</span></summary>
-            <p><span data-es="Todo empieza con camisetas que recibimos como donaciones o compramos en pequeñas tiendas de segunda mano, apoyando también a esos negocios. Después seleccionamos, lavamos, cortamos y personalizamos cada prenda hasta convertirla en una bolsa única. Así le damos otra oportunidad a algo que podría haberse desechado." data-en="It starts with T-shirts donated to us or bought from small secondhand shops, helping support those businesses too. We then sort, wash, cut and personalize each shirt until it becomes a one-of-a-kind tote. Something that might have been thrown away gets another chance.">Tudo começa com camisetas que recebemos por meio de doações ou compramos de pequenos brechós, ajudando também a fortalecer esses negócios. Depois, cada peça passa por um processo de seleção, higienização, corte e personalização, até se transformar em uma ecobag única, dando uma nova oportunidade ao que poderia ser descartado.</span></p>
-          </details>
-          <details>
-            <summary><span data-es="Creaciones personalizadas" data-en="Custom creations">Criações personalizadas</span></summary>
-            <p><span data-es="Cada pieza ya es única, pero ¿qué te parecería tener una AlçaVoz exclusiva para ti o para tu empresa? Personalizamos colores, estampados y mensajes para hacer realidad tus ideas. Si quieres hacer un regalo, dar a conocer tu marca o apoyar una causa, cuéntanos qué te mueve y le daremos voz juntos." data-en="Every piece is already unique, but how about an AlçaVoz tote made just for you or your business? We customize colors, prints and messages to bring your ideas to life. Whether it’s a gift, a way to promote your brand or a cause you want to support, tell us what matters to you and we’ll give it a voice together.">Nossas peças já são únicas por natureza, mas que tal ter uma AlçaVoz exclusiva para você ou sua empresa? Personalizamos cores, estampas e mensagens para transformar suas ideias em algo especial. Seja para presentear, divulgar sua marca ou apoiar uma causa, conte pra gente o seu propósito e vamos dar voz a ele juntos!</span></p>
-          </details>
-          <details>
-            <summary><span data-es="Impacto social" data-en="Social impact">Impacto Social</span></summary>
-            <p><span data-es="Creemos que una pequeña elección puede generar grandes cambios. Por eso nuestras colecciones dan visibilidad a causas importantes y destinan parte de las ventas a las organizaciones que apoya cada campaña. Quienes eligen nuestras bolsas también forman parte de esa cadena de solidaridad." data-en="We believe a small choice can lead to bigger changes. Our collections bring attention to important causes, and part of the proceeds goes to the organizations supported by each campaign. Everyone who chooses one of our bags becomes part of that circle of support.">Acreditamos que uma pequena escolha pode gerar mudanças maiores. Por isso, nossas coleções dão visibilidade a causas importantes e destinam parte das vendas às instituições apoiadas em cada campanha. Assim, quem escolhe uma de nossas bolsas também participa dessa corrente de solidariedade.</span></p>
-          </details>
-        </div>
-      </section>
+      <section id="girassol" class="guia" aria-labelledby="titulo-girassol">
+        <div class="guia-intro">
+        <h2 id="titulo-girassol"><span data-es="🌻 ¡Cultiva tu girasol, cultiva cambios!" data-en="🌻 Grow your sunflower, grow change!">🌻 Cultive seu girassol, cultive mudanças!</span></h2>
+        <p><span data-es="Toda gran transformación empieza con un pequeño gesto. Así como AlçaVoz transforma telas desechadas en nuevas oportunidades, ¡tú puedes convertir una pequeña semilla en una hermosa flor!" data-en="Every big change starts with a small act. Just as AlçaVoz turns discarded fabric into new opportunities, you can turn a tiny seed into a beautiful flower!">Toda grande transformação começa com uma pequena atitude. Assim como a AlçaVoz transforma tecidos descartados em novas oportunidades, você pode transformar uma pequena semente em uma linda flor!</span></p>
+        <p><span data-es="Preparamos una guía especial para ayudarte a cuidar tu girasol. 💚" data-en="We prepared this guide to help you care for your sunflower. 💚">Preparamos um guia especial para ajudar você a cuidar do seu girassol. 💚</span></p>
+        </div><div class="etapas">
+        <h3><span data-es="🌱 Cómo plantar paso a paso" data-en="🌱 Planting step by step">🌱 Passo a passo para plantar</span></h3>
+        <details><summary><b class="numero">1</b><span data-es="Prepara el espacio" data-en="Prepare the pot">Prepare o espaço</span></summary>
+          <div class="conteudo-etapa">
+        <p><span data-es="Elige una maceta con agujeros en la base y llénala de tierra fértil. ¡Tu girasol necesita espacio para echar raíces!" data-en="Choose a pot with drainage holes and fill it with fertile soil. Your sunflower needs room to grow roots!">Escolha um vaso com furos no fundo e coloque terra fértil. Seu girassol precisa de espaço para criar raízes!</span></p>
+        <img loading="lazy" src="imagens/girassol/1.webp" width="960" height="640" alt="Vaso com furos e terra fértil" data-alt-es="Maceta con agujeros y tierra fértil" data-alt-en="Pot with drainage holes and fertile soil"></div></details>
+        <details><summary><b class="numero">2</b><span data-es="Siembra tu semilla" data-en="Plant your seed">Plante sua sementinha</span></summary>
+          <div class="conteudo-etapa">
+        <p><span data-es="Haz un hoyo de unos 2 cm, coloca la semilla y cúbrela con cuidado." data-en="Make a hole about 2 cm deep, place the seed inside and gently cover it with soil.">Faça um pequeno buraco de aproximadamente 2 cm, coloque a semente e cubra suavemente com terra.</span></p>
+        <img loading="lazy" src="imagens/girassol/2.webp" width="960" height="640" alt="Semente sendo colocada na terra" data-alt-es="Semilla entrando en la tierra" data-alt-en="Seed being placed in the soil"></div></details>
+        <details><summary><b class="numero">3</b><span data-es="Riega con cariño" data-en="Water gently">Regue com carinho</span></summary>
+          <div class="conteudo-etapa">
+        <p><span data-es="Mantén la tierra ligeramente húmeda, sin encharcarla. ¡El agua es esencial para que florezca la vida!" data-en="Keep the soil slightly moist without soaking it. Water helps life flourish!">Mantenha a terra levemente úmida, sem encharcar. A água é essencial para a vida florescer!</span></p>
+        <img loading="lazy" src="imagens/girassol/3.webp" width="960" height="640" alt="Regador umedecendo a terra" data-alt-es="Regadera humedeciendo la tierra" data-alt-en="Watering can moistening the soil"></div></details>
+        <details><summary><b class="numero">4</b><span data-es="Dale luz y cuidado" data-en="Give it light and care">Ofereça luz e cuidado</span></summary>
+          <div class="conteudo-etapa">
+        <p><span data-es="Pon tu girasol en un lugar soleado. Tras germinar necesita al menos 6 horas de sol directo al día." data-en="Place your sunflower in a sunny spot. After sprouting, it needs at least 6 hours of direct sun a day.">Coloque seu girassol em um local ensolarado. Após germinar, ele precisa de pelo menos 6 horas de sol direto por dia.</span></p>
+        <img loading="lazy" src="imagens/girassol/4.webp" width="960" height="640" alt="Muda de girassol ao sol" data-alt-es="Plántula de girasol al sol" data-alt-en="Sunflower seedling in sunlight"></div></details>
+        <details><summary><b class="numero">5</b><span data-es="Observa la transformación" data-en="Watch the transformation">Veja a transformação acontecer</span></summary>
+          <div class="conteudo-etapa">
+        <p><span data-es="En unos 7 a 14 días pueden aparecer los primeros brotes. ¡Sigue cuidándolos y observa cada etapa de su crecimiento!" data-en="The first sprouts may appear in about 7 to 14 days. Keep caring for them and watch each stage of growth!">Em cerca de 7 a 14 dias, os primeiros brotinhos podem aparecer. Continue cuidando e acompanhe cada etapa do crescimento!</span></p>
+        <img loading="lazy" src="imagens/girassol/5.webp" width="960" height="640" alt="Primeiras folhas do broto de girassol" data-alt-es="Primeras hojas del brote de girasol" data-alt-en="First leaves of a sunflower sprout"></div></details>
+        </div><div class="guia-final">
+        <h3><span data-es="💛 Pequeños gestos, grandes transformaciones" data-en="💛 Small actions, big changes">💛 Pequenas atitudes, grandes transformações</span></h3>
+        <p><span data-es="Cada semilla lleva la posibilidad de una nueva vida. Cada tela reutilizada lleva la posibilidad de una nueva historia." data-en="Every seed holds the possibility of new life. Every piece of reused fabric holds the possibility of a new story.">Cada semente carrega a possibilidade de uma nova vida. Cada tecido reaproveitado carrega a possibilidade de uma nova história.</span></p>
+        <p><span data-es="En AlçaVoz creemos que transformar el mundo empieza con decisiones sencillas, conscientes y llenas de propósito." data-en="At AlçaVoz, we believe changing the world starts with simple, mindful choices made with purpose.">Na AlçaVoz, acreditamos que transformar o mundo começa com escolhas simples, conscientes e cheias de propósito.</span></p>
+        </div></section>
       <!-- EDITE AQUI · RODAPÉ -->
       <footer>
         <strong>AlçaVoz</strong>
         <a class="pill" href="#inicio"><span data-es="Volver al inicio" data-en="Back to top">Voltar ao início</span> <span aria-hidden="true">↑</span></a>
       </footer>
     </main>
-    <button type="button" id="tema" class="tema" aria-label="Modo escuro" aria-pressed="false" title="Modo escuro"><span aria-hidden="true">☾</span></button>
+    <div class="preferencias">
+      <div class="idioma">
+        <button type="button" id="idioma" aria-expanded="false" aria-controls="lista-idiomas"><svg class="bandeira br" aria-hidden="true" viewBox="0 0 28 20"><rect width="28" height="20" fill="#009739"/><path d="M2 10 14 2 26 10 14 18Z" fill="#ffdf00"/><circle cx="14" cy="10" r="5" fill="#002776"/><path d="M9.1 8.9Q14 8.4 18.4 12.2" fill="none" stroke="white" stroke-width="1"/></svg><svg class="bandeira es" aria-hidden="true" viewBox="0 0 28 20"><rect width="28" height="20" fill="#aa151b"/><path d="M0 5h28v10H0z" fill="#f1bf00"/></svg><svg class="bandeira gb" aria-hidden="true" viewBox="0 0 28 20"><rect width="28" height="20" fill="#163668"/><path d="m0 0 28 20m0-20L0 20" stroke="#fff" stroke-width="4"/><path d="m0 0 28 20m0-20L0 20" stroke="#bd243d" stroke-width="1.3"/><path d="M14 0v20M0 10h28" stroke="#fff" stroke-width="7"/><path d="M14 0v20M0 10h28" stroke="#bd243d" stroke-width="4"/></svg><span id="sigla">BR</span> ▾</button>
+        <div id="lista-idiomas" hidden>
+            <button type="button" data-lang="pt" aria-label="Português do Brasil"><svg class="bandeira br" aria-hidden="true" viewBox="0 0 28 20"><rect width="28" height="20" fill="#009739"/><path d="M2 10 14 2 26 10 14 18Z" fill="#ffdf00"/><circle cx="14" cy="10" r="5" fill="#002776"/><path d="M9.1 8.9Q14 8.4 18.4 12.2" fill="none" stroke="white" stroke-width="1"/></svg>BR</button>
+            <button type="button" data-lang="es" aria-label="Español"><svg class="bandeira es" aria-hidden="true" viewBox="0 0 28 20"><rect width="28" height="20" fill="#aa151b"/><path d="M0 5h28v10H0z" fill="#f1bf00"/></svg>ES</button>
+            <button type="button" data-lang="en" aria-label="English"><svg class="bandeira gb" aria-hidden="true" viewBox="0 0 28 20"><rect width="28" height="20" fill="#163668"/><path d="m0 0 28 20m0-20L0 20" stroke="#fff" stroke-width="4"/><path d="m0 0 28 20m0-20L0 20" stroke="#bd243d" stroke-width="1.3"/><path d="M14 0v20M0 10h28" stroke="#fff" stroke-width="7"/><path d="M14 0v20M0 10h28" stroke="#bd243d" stroke-width="4"/></svg>EN</button>
+        </div>
+      </div>
+      <button type="button" id="tema" class="tema" aria-label="Modo escuro" aria-pressed="false" title="Modo escuro"><span aria-hidden="true">☾</span></button>
+    </div>
     <script>
+      document.querySelectorAll(".galeria").forEach(gallery => {
+        const photos = [...gallery.querySelectorAll("img")];
+        const counter = gallery.querySelector(".contador");
+        let current = 0;
+        function nextPhoto() {
+          photos[current].setAttribute("aria-hidden", "true");
+          current = (current + 1) % photos.length;
+          photos[current].removeAttribute("aria-hidden");
+          counter.textContent = (current + 1) + " / " + photos.length;
+        }
+        let timer = setInterval(nextPhoto, 5000);
+        gallery.addEventListener("click", () => {
+          nextPhoto();
+          clearInterval(timer);
+          timer = setInterval(nextPhoto, 5000);
+        });
+      });
+      // O summary mantém a navegação nativa por teclado.
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+      document.querySelectorAll("#girassol details").forEach(details => {
+        const summary = details.querySelector("summary");
+        const content = details.querySelector(".conteudo-etapa");
+        let animation;
+        let expanding = false;
+        summary.addEventListener("click", event => {
+          if (reducedMotion.matches || !content.animate) {
+            if (animation) {
+              animation.cancel();
+              animation = null;
+            }
+            return;
+          }
+          event.preventDefault();
+          const initialHeight = details.open ? content.getBoundingClientRect().height : 0;
+          const initialOpacity = details.open ? getComputedStyle(content).opacity : 0;
+          expanding = animation ? !expanding : !details.open;
+          if (animation) animation.cancel();
+          details.open = true;
+          const finalHeight = expanding ? content.getBoundingClientRect().height : 0;
+          animation = content.animate([
+            {height: initialHeight + "px", opacity: initialOpacity},
+            {height: finalHeight + "px", opacity: expanding ? 1 : 0}
+          ], {duration: 380, easing: "ease-in-out", fill: "both"});
+          animation.onfinish = () => {
+            details.open = expanding;
+            animation.cancel();
+            animation = null;
+          };
+        });
+      });
       // Os textos de cada painel ficam nos blocos <details> acima.
-      document.querySelectorAll("details").forEach((details, index) => {
+      document.querySelectorAll("details:not(#girassol details)").forEach((details, index) => {
         const summary = details.querySelector("summary");
         const item = document.createElement("div");
         const button = document.createElement("button");
@@ -320,6 +473,12 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
         en: ["en", "Language", "Main navigation", "Dark mode"]
       };
       const selector = document.getElementById("idioma");
+      const languageList = document.getElementById("lista-idiomas");
+      const languageButtons = [...languageList.querySelectorAll("button")];
+      function showLanguages(open) {
+        selector.setAttribute("aria-expanded", String(open));
+        languageList.hidden = !open;
+      }
       const themeButton = document.getElementById("tema");
       const translations = [...document.querySelectorAll("[data-es]")].map(el => [el, el.textContent]);
       const pictures = [...document.querySelectorAll("[data-alt-es]")].map(el => [el, el.alt]);
@@ -334,8 +493,9 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
         const [locale, language, navigation, darkMode] = labels[lang];
         document.documentElement.lang = locale;
         document.querySelector("main").lang = locale;
-        selector.value = lang;
-        selector.setAttribute("aria-label", language);
+        const current = languageButtons.find(button => button.dataset.lang === lang);
+        document.getElementById("sigla").textContent = current.textContent.trim();
+        selector.setAttribute("aria-label", language + " · " + current.getAttribute("aria-label"));
         document.querySelector("nav").setAttribute("aria-label", navigation);
         themeButton.setAttribute("aria-label", darkMode);
         themeButton.title = darkMode;
@@ -354,9 +514,24 @@ html[data-theme="dark"] {color-scheme:dark;background:#14241e}
       const savedLanguage = readPreference("idioma");
       setLanguage(["en","es"].includes(savedLanguage) ? savedLanguage : "pt");
       setTheme(readPreference("tema") === "dark");
-      selector.addEventListener("change", () => {
-        setLanguage(selector.value);
-        savePreference("idioma", selector.value);
+      selector.addEventListener("click", () => showLanguages(languageList.hidden));
+      languageButtons.forEach(button => button.addEventListener("click", () => {
+        setLanguage(button.dataset.lang);
+        savePreference("idioma", button.dataset.lang);
+        showLanguages(false);
+        selector.focus();
+      }));
+      document.addEventListener("click", event => {
+        if (!selector.parentElement.contains(event.target)) showLanguages(false);
+      });
+      selector.parentElement.addEventListener("focusout", event => {
+        if (!selector.parentElement.contains(event.relatedTarget)) showLanguages(false);
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !languageList.hidden) {
+          showLanguages(false);
+          selector.focus();
+        }
       });
       themeButton.addEventListener("click", () => {
         setTheme(document.documentElement.dataset.theme !== "dark");
